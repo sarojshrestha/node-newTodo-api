@@ -12,18 +12,15 @@ var app = express();
 app.use(bodyParser.json());
 
 app.get('/todo',(req,res)=>{
-   Todo.find().then((data)=>{
-       res.send(
-           {
-           data
-        });
+   Todo.find().then((data)=>{ 
+       res.send({data});
    },(err)=>{
        console.log(err)
    })
 });
 
 app.post('/todo',(req, res)=>{
-    console.log('Server post test', req.body.text);
+    console.log('ServerPostTest', req.body.text);
 var todo = new Todo({
     text:req.body.text
 });
