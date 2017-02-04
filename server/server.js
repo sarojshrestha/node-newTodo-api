@@ -1,4 +1,5 @@
 var express = require('express');
+var mongodb = require('mongodb'); 
 var bodyParser = require('body-parser');
 const PORT = 3000;
 
@@ -17,6 +18,21 @@ app.get('/todo',(req,res)=>{
    },(err)=>{
        console.log(err)
    })
+});
+//GET todo/3122
+app.get('/todo/:id',(req, res)=>{
+    var id = req.params.id;
+    if(!mongodb.ObjectID.isValid(id)){
+        return res.status(404).send('Not found Id');
+    }
+    Todo.findById(id).then((data)=>{
+        if(!data){
+            return res.status(400).send('Bad request');
+        }
+        res.send({data});
+    }).catch((e)=>{
+        res.status(400).send('Invalid');
+    });
 });
 
 app.post('/todo',(req, res)=>{
